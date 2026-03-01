@@ -20,7 +20,7 @@ parser.add_argument("--concept_set", type=str, default=None,
 parser.add_argument("--backbone", type=str, default="clip_RN50", help="Which pretrained model to use as backbone")
 parser.add_argument("--clip_name", type=str, default="ViT-B/16", help="Which CLIP model to use")
 
-parser.add_argument("--device", type=str, default="cuda", help="Which device to use")
+parser.add_argument("--device", type=str, default=None, help="Which device to use (default: auto)")
 parser.add_argument("--batch_size", type=int, default=512, help="Batch size used when saving model/CLIP activations")
 parser.add_argument("--saga_batch_size", type=int, default=256, help="Batch size used when fitting final layer")
 parser.add_argument("--proj_batch_size", type=int, default=50000, help="Batch size to use when learning projection layer")
@@ -37,6 +37,8 @@ parser.add_argument("--n_iters", type=int, default=1000, help="How many iteratio
 parser.add_argument("--print", action='store_true', help="Print all concepts being deleted in this stage")
 
 def train_cbm_and_save(args):
+    if args.device is None:
+        args.device = "cuda" if torch.cuda.is_available() else "cpu"
     
     if not os.path.exists(args.save_dir):
         os.mkdir(args.save_dir)

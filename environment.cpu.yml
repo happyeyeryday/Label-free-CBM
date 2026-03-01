@@ -1,0 +1,24 @@
+name: lfcbm-cpu
+channels:
+  - pytorch
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.9
+  - pip
+  - numpy<2
+  - pytorch=1.13.*
+  - torchvision=0.14.*
+  - cpuonly
+  - matplotlib>=3.5.1
+  - gdown>=4.7.1
+  - ftfy>=6.1.1
+  - regex>=2022.10.31
+  - tqdm>=4.64.1
+  - pandas>=1.5.3
+  - jupyter
+  - notebook
+  - pip:
+      - pytorchcv>=0.0.67
+      - sentence_transformers==2.2.2
+      - huggingface_hub<0.26

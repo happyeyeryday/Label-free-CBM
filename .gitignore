@@ -1,5 +1,9 @@
 __pycache__/
 .ipynb_checkpoints
+.cache/
+checkpoints/
+figures/
+validation_results*.csv
 saved_activations/
 data/places365
 data/resnet18_places365.pth.tar

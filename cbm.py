@@ -4,8 +4,10 @@ import torch
 import data_utils
 
 class CBM_model(torch.nn.Module):
-    def __init__(self, backbone_name, W_c, W_g, b_g, proj_mean, proj_std, device="cuda"):
+    def __init__(self, backbone_name, W_c, W_g, b_g, proj_mean, proj_std, device=None):
         super().__init__()
+        if device is None:
+            device = "cuda" if torch.cuda.is_available() else "cpu"
         model, _ = data_utils.get_target_model(backbone_name, device)
         #remove final fully connected layer
         if "clip" in backbone_name:
@@ -34,8 +36,10 @@ class CBM_model(torch.nn.Module):
         return x, proj_c
 
 class standard_model(torch.nn.Module):
-    def __init__(self, backbone_name, W_g, b_g, proj_mean, proj_std, device="cuda"):
+    def __init__(self, backbone_name, W_g, b_g, proj_mean, proj_std, device=None):
         super().__init__()
+        if device is None:
+            device = "cuda" if torch.cuda.is_available() else "cpu"
         model, _ = data_utils.get_target_model(backbone_name, device)
         #remove final fully connected layer
         if "clip" in backbone_name:
@@ -60,7 +64,9 @@ class standard_model(torch.nn.Module):
         return x, proj_c
 
     
-def load_cbm(load_dir, device):
+def load_cbm(load_dir, device=None):
+    if device is None:
+        device = "cuda" if torch.cuda.is_available() else "cpu"
     with open(os.path.join(load_dir ,"args.txt"), 'r') as f:
         args = json.load(f)
 
@@ -74,7 +80,9 @@ def load_cbm(load_dir, device):
     model = CBM_model(args['backbone'], W_c, W_g, b_g, proj_mean, proj_std, device)
     return model
 
-def load_std(load_dir, device):
+def load_std(load_dir, device=None):
+    if device is None:
+        device = "cuda" if torch.cuda.is_available() else "cpu"
     with open(os.path.join(load_dir ,"args.txt"), 'r') as f:
         args = json.load(f)
 

@@ -14,6 +14,27 @@ This is the official repository for our paper [Label-Free Concept Bottleneck Mod
 4. Download and process CUB dataset by running `bash download_cub.sh` 
 5. Download ResNet18(Places365) backbone by running `bash download_rn18_places.sh`
 
+### CPU-only development machine (no GPU)
+
+If you are developing on a machine without GPU, you can use the provided conda environment:
+
+```bash
+conda env create -f environment.cpu.yml
+conda activate lfcbm-cpu
+```
+
+Quick check:
+
+```bash
+python -c "import torch; print(torch.__version__, 'cuda?', torch.cuda.is_available())"
+```
+
+Training scripts (`train_cbm.py`, `train_standard.py`) now auto-select device:
+- CUDA if available
+- CPU otherwise
+
+You can still override manually with `--device cpu` or `--device cuda`.
+
 We do not provide download instructions for ImageNet data, to evaluate using your own copy of ImageNet you must set the correct path in `DATASET_ROOTS["imagenet_train"]` and `DATASET_ROOTS["imagenet_val"]` variables in `data_utils.py`.
 
 ## Running the models
@@ -35,6 +56,47 @@ Train a concept bottleneck model on CIFAR10 by running:
 Evaluate the trained models by running `evaluate_cbm.ipynb`. This measures model accuracy, creates barplots explaining individual decisions and prints final layer weights which are the basis for creating weight visualizations.
 
 Additional evaluations and reproductions of our model editing experiments are available in the notebooks of `experiments` directory.
+
+## Hierarchical Concept Aptitude Validation (CIFAR-10)
+
+Generate layer-specific concept sets from the existing CIFAR-10 concept file:
+
+```bash
+python scripts/generate_layered_concepts.py \
+  --input data/concept_sets/cifar10_filtered.txt \
+  --out_low data/concept_sets/cifar10_layer1.txt \
+  --out_high data/concept_sets/cifar10_layer4.txt
+```
+
+Run quick validation (CPU-friendly defaults, small subset):
+
+```bash
+python run_validation.py
+```
+
+Run full PRD setting (4 probes, full CIFAR-10, 50 epochs):
+
+```bash
+python run_validation.py --full
+```
+
+Plot comparison bars from the generated CSV:
+
+```bash
+python tools/plot_validation.py --csv validation_results.csv --out_dir figures
+```
+
+Optional Kimi/OpenAI-compatible concept refinement:
+
+```bash
+python scripts/kimi_refine_layered_concepts.py \
+  --model <kimi-model> \
+  --base_url <openai-compatible-base-url> \
+  --in_low data/concept_sets/cifar10_layer1.txt \
+  --in_high data/concept_sets/cifar10_layer4.txt \
+  --out_low data/concept_sets/cifar10_layer1.txt \
+  --out_high data/concept_sets/cifar10_layer4.txt
+```
 
 ## Results
 
@@ -74,5 +136,3 @@ T. Oikarinen, S. Das, L. Nguyen and T.-W. Weng, [*Label-free Concept Bottleneck 
   year={2023}
 }
 ```
-
-

@@ -14,7 +14,7 @@ from torch.utils.data import DataLoader, TensorDataset
 parser = argparse.ArgumentParser(description='Settings for creating model')
 
 parser.add_argument("--backbone", type=str, default="clip_RN50", help="Which pretrained model to use as backbone")
-parser.add_argument("--device", type=str, default="cuda", help="Which device to use")
+parser.add_argument("--device", type=str, default=None, help="Which device to use (default: auto)")
 parser.add_argument("--batch_size", type=int, default=512, help="Batch size used when saving model/CLIP activations")
 parser.add_argument("--dataset", type=str, default="cifar10")
 parser.add_argument("--feature_layer", type=str, default='layer4', 
@@ -25,6 +25,8 @@ parser.add_argument("--lam", type=float, default=0.0125, help="Sparsity regulari
 parser.add_argument("--n_iters", type=int, default=1000, help="How many iterations to run the final layer solver for")
 
 def train_and_save(args):
+    if args.device is None:
+        args.device = "cuda" if torch.cuda.is_available() else "cpu"
     #load data and models
     
     d_train = args.dataset + "_train"

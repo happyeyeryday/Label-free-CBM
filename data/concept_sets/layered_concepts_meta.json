@@ -1,0 +1,869 @@
+{
+  "input": "data/concept_sets/cifar10_filtered.txt",
+  "out_low": "data/concept_sets/cifar10_layer1.txt",
+  "out_high": "data/concept_sets/cifar10_layer4.txt",
+  "split_point": 0,
+  "num_total": 143,
+  "num_low": 97,
+  "num_high": 46,
+  "scored": [
+    {
+      "concept": "a Hunter",
+      "low_score": 0,
+      "high_score": 0,
+      "delta_high_minus_low": 0
+    },
+    {
+      "concept": "a barn",
+      "low_score": 0,
+      "high_score": 0,
+      "delta_high_minus_low": 0
+    },
+    {
+      "concept": "a beak",
+      "low_score": 0,
+      "high_score": 2,
+      "delta_high_minus_low": 2
+    },
+    {
+      "concept": "a bed",
+      "low_score": 0,
+      "high_score": 0,
+      "delta_high_minus_low": 0
+    },
+    {
+      "concept": "a bed for carrying cargo",
+      "low_score": 0,
+      "high_score": 1,
+      "delta_high_minus_low": 1
+    },
+    {
+      "concept": "a beetle",
+      "low_score": 0,
+      "high_score": 0,
+      "delta_high_minus_low": 0
+    },
+    {
+      "concept": "a bird feeder",
+      "low_score": 0,
+      "high_score": 3,
+      "delta_high_minus_low": 3
+    },
+    {
+      "concept": "a birdfeeder",
+      "low_score": 0,
+      "high_score": 0,
+      "delta_high_minus_low": 0
+    },
+    {
+      "concept": "a birdhouse",
+      "low_score": 0,
+      "high_score": 0,
+      "delta_high_minus_low": 0
+    },
+    {
+      "concept": "a bit",
+      "low_score": 0,
+      "high_score": 0,
+      "delta_high_minus_low": 0
+    },
+    {
+      "concept": "a boat",
+      "low_score": 0,
+      "high_score": 0,
+      "delta_high_minus_low": 0
+    },
+    {
+      "concept": "a branch",
+      "low_score": 0,
+      "high_score": 0,
+      "delta_high_minus_low": 0
+    },
+    {
+      "concept": "a bridle",
+      "low_score": 0,
+      "high_score": 0,
+      "delta_high_minus_low": 0
+    },
+    {
+      "concept": "a cab for the driver",
+      "low_score": 0,
+      "high_score": 1,
+      "delta_high_minus_low": 1
+    },
+    {
+      "concept": "a cage",
+      "low_score": 0,
+      "high_score": 0,
+      "delta_high_minus_low": 0
+    },
+    {
+      "concept": "a captain",
+      "low_score": 0,
+      "high_score": 0,
+      "delta_high_minus_low": 0
+    },
+    {
+      "concept": "a cat bed",
+      "low_score": 0,
+      "high_score": 3,
+      "delta_high_minus_low": 3
+    },
+    {
+      "concept": "a cat food dish",
+      "low_score": 1,
+      "high_score": 3,
+      "delta_high_minus_low": 2
+    },
+    {
+      "concept": "a cat toy",
+      "low_score": 0,
+      "high_score": 3,
+      "delta_high_minus_low": 3
+    },
+    {
+      "concept": "a collar",
+      "low_score": 0,
+      "high_score": 0,
+      "delta_high_minus_low": 0
+    },
+    {
+      "concept": "a copilot",
+      "low_score": 0,
+      "high_score": 0,
+      "delta_high_minus_low": 0
+    },
+    {
+      "concept": "a crew",
+      "low_score": 0,
+      "high_score": 0,
+      "delta_high_minus_low": 0
+    },
+    {
+      "concept": "a dashboard",
+      "low_score": 0,
+      "high_score": 0,
+      "delta_high_minus_low": 0
+    },
+    {
+      "concept": "a deck",
+      "low_score": 0,
+      "high_score": 0,
+      "delta_high_minus_low": 0
+    },
+    {
+      "concept": "a deer stand",
+      "low_score": 0,
+      "high_score": 3,
+      "delta_high_minus_low": 3
+    },
+    {
+      "concept": "a dock",
+      "low_score": 0,
+      "high_score": 0,
+      "delta_high_minus_low": 0
+    },
+    {
+      "concept": "a dog bowl",
+      "low_score": 0,
+      "high_score": 3,
+      "delta_high_minus_low": 3
+    },
+    {
+      "concept": "a driver",
+      "low_score": 0,
+      "high_score": 0,
+      "delta_high_minus_low": 0
+    },
+    {
+      "concept": "a field",
+      "low_score": 0,
+      "high_score": 0,
+      "delta_high_minus_low": 0
+    },
+    {
+      "concept": "a flat back end",
+      "low_score": 0,
+      "high_score": 1,
+      "delta_high_minus_low": 1
+    },
+    {
+      "concept": "a flat front and back",
+      "low_score": 0,
+      "high_score": 1,
+      "delta_high_minus_low": 1
+    },
+    {
+      "concept": "a flight attendant",
+      "low_score": 0,
+      "high_score": 1,
+      "delta_high_minus_low": 1
+    },
+    {
+      "concept": "a fly",
+      "low_score": 0,
+      "high_score": 0,
+      "delta_high_minus_low": 0
+    },
+    {
+      "concept": "a food bowl",
+      "low_score": 0,
+      "high_score": 1,
+      "delta_high_minus_low": 1
+    },
+    {
+      "concept": "a forest",
+      "low_score": 0,
+      "high_score": 0,
+      "delta_high_minus_low": 0
+    },
+    {
+      "concept": "a four-legged mammal",
+      "low_score": 0,
+      "high_score": 1,
+      "delta_high_minus_low": 1
+    },
+    {
+      "concept": "a gear shift",
+      "low_score": 0,
+      "high_score": 1,
+      "delta_high_minus_low": 1
+    },
+    {
+      "concept": "a green or brown body",
+      "low_score": 6,
+      "high_score": 3,
+      "delta_high_minus_low": -3
+    },
+    {
+      "concept": "a grille",
+      "low_score": 0,
+      "high_score": 0,
+      "delta_high_minus_low": 0
+    },
+    {
+      "concept": "a halter",
+      "low_score": 0,
+      "high_score": 0,
+      "delta_high_minus_low": 0
+    },
+    {
+      "concept": "a hitch",
+      "low_score": 0,
+      "high_score": 0,
+      "delta_high_minus_low": 0
+    },
+    {
+      "concept": "a large body",
+      "low_score": 0,
+      "high_score": 3,
+      "delta_high_minus_low": 3
+    },
+    {
+      "concept": "a large size",
+      "low_score": 0,
+      "high_score": 1,
+      "delta_high_minus_low": 1
+    },
+    {
+      "concept": "a large, metal body",
+      "low_score": 0,
+      "high_score": 3,
+      "delta_high_minus_low": 3
+    },
+    {
+      "concept": "a large, rectangular body",
+      "low_score": 0,
+      "high_score": 3,
+      "delta_high_minus_low": 3
+    },
+    {
+      "concept": "a lead rope",
+      "low_score": 0,
+      "high_score": 1,
+      "delta_high_minus_low": 1
+    },
+    {
+      "concept": "a leaf",
+      "low_score": 0,
+      "high_score": 0,
+      "delta_high_minus_low": 0
+    },
+    {
+      "concept": "a leash",
+      "low_score": 0,
+      "high_score": 0,
+      "delta_high_minus_low": 0
+    },
+    {
+      "concept": "a lily pad",
+      "low_score": 0,
+      "high_score": 1,
+      "delta_high_minus_low": 1
+    },
+    {
+      "concept": "a litter box",
+      "low_score": 0,
+      "high_score": 1,
+      "delta_high_minus_low": 1
+    },
+    {
+      "concept": "a long neck",
+      "low_score": 0,
+      "high_score": 1,
+      "delta_high_minus_low": 1
+    },
+    {
+      "concept": "a mane and tail",
+      "low_score": 0,
+      "high_score": 3,
+      "delta_high_minus_low": 3
+    },
+    {
+      "concept": "a mast",
+      "low_score": 0,
+      "high_score": 0,
+      "delta_high_minus_low": 0
+    },
+    {
+      "concept": "a mosquito",
+      "low_score": 0,
+      "high_score": 0,
+      "delta_high_minus_low": 0
+    },
+    {
+      "concept": "a nest",
+      "low_score": 0,
+      "high_score": 0,
+      "delta_high_minus_low": 0
+    },
+    {
+      "concept": "a net",
+      "low_score": 0,
+      "high_score": 0,
+      "delta_high_minus_low": 0
+    },
+    {
+      "concept": "a nose",
+      "low_score": 0,
+      "high_score": 0,
+      "delta_high_minus_low": 0
+    },
+    {
+      "concept": "a passenger",
+      "low_score": 0,
+      "high_score": 0,
+      "delta_high_minus_low": 0
+    },
+    {
+      "concept": "a pasture",
+      "low_score": 0,
+      "high_score": 0,
+      "delta_high_minus_low": 0
+    },
+    {
+      "concept": "a pedal",
+      "low_score": 0,
+      "high_score": 0,
+      "delta_high_minus_low": 0
+    },
+    {
+      "concept": "a person",
+      "low_score": 0,
+      "high_score": 2,
+      "delta_high_minus_low": 2
+    },
+    {
+      "concept": "a pilot",
+      "low_score": 0,
+      "high_score": 0,
+      "delta_high_minus_low": 0
+    },
+    {
+      "concept": "a pointed front end",
+      "low_score": 0,
+      "high_score": 1,
+      "delta_high_minus_low": 1
+    },
+    {
+      "concept": "a pond",
+      "low_score": 0,
+      "high_score": 0,
+      "delta_high_minus_low": 0
+    },
+    {
+      "concept": "a port",
+      "low_score": 0,
+      "high_score": 0,
+      "delta_high_minus_low": 0
+    },
+    {
+      "concept": "a reddish-brown coat",
+      "low_score": 4,
+      "high_score": 1,
+      "delta_high_minus_low": -3
+    },
+    {
+      "concept": "a reins",
+      "low_score": 0,
+      "high_score": 0,
+      "delta_high_minus_low": 0
+    },
+    {
+      "concept": "a rider",
+      "low_score": 0,
+      "high_score": 0,
+      "delta_high_minus_low": 0
+    },
+    {
+      "concept": "a rifle",
+      "low_score": 0,
+      "high_score": 0,
+      "delta_high_minus_low": 0
+    },
+    {
+      "concept": "a road",
+      "low_score": 0,
+      "high_score": 0,
+      "delta_high_minus_low": 0
+    },
+    {
+      "concept": "a rudder",
+      "low_score": 0,
+      "high_score": 0,
+      "delta_high_minus_low": 0
+    },
+    {
+      "concept": "a runway",
+      "low_score": 0,
+      "high_score": 0,
+      "delta_high_minus_low": 0
+    },
+    {
+      "concept": "a saddle",
+      "low_score": 0,
+      "high_score": 0,
+      "delta_high_minus_low": 0
+    },
+    {
+      "concept": "a scratching post",
+      "low_score": 0,
+      "high_score": 1,
+      "delta_high_minus_low": 1
+    },
+    {
+      "concept": "a seat",
+      "low_score": 0,
+      "high_score": 0,
+      "delta_high_minus_low": 0
+    },
+    {
+      "concept": "a seatbelt",
+      "low_score": 0,
+      "high_score": 0,
+      "delta_high_minus_low": 0
+    },
+    {
+      "concept": "a short, stocky build",
+      "low_score": 0,
+      "high_score": 1,
+      "delta_high_minus_low": 1
+    },
+    {
+      "concept": "a slender body",
+      "low_score": 0,
+      "high_score": 3,
+      "delta_high_minus_low": 3
+    },
+    {
+      "concept": "a small, lithe body",
+      "low_score": 0,
+      "high_score": 3,
+      "delta_high_minus_low": 3
+    },
+    {
+      "concept": "a spider",
+      "low_score": 0,
+      "high_score": 0,
+      "delta_high_minus_low": 0
+    },
+    {
+      "concept": "a steering wheel",
+      "low_score": 0,
+      "high_score": 3,
+      "delta_high_minus_low": 3
+    },
+    {
+      "concept": "a suitcase",
+      "low_score": 0,
+      "high_score": 0,
+      "delta_high_minus_low": 0
+    },
+    {
+      "concept": "a tail",
+      "low_score": 0,
+      "high_score": 2,
+      "delta_high_minus_low": 2
+    },
+    {
+      "concept": "a tire",
+      "low_score": 0,
+      "high_score": 0,
+      "delta_high_minus_low": 0
+    },
+    {
+      "concept": "a tough, durable frame",
+      "low_score": 0,
+      "high_score": 1,
+      "delta_high_minus_low": 1
+    },
+    {
+      "concept": "a toy",
+      "low_score": 0,
+      "high_score": 0,
+      "delta_high_minus_low": 0
+    },
+    {
+      "concept": "a trailer",
+      "low_score": 0,
+      "high_score": 0,
+      "delta_high_minus_low": 0
+    },
+    {
+      "concept": "a tree",
+      "low_score": 0,
+      "high_score": 0,
+      "delta_high_minus_low": 0
+    },
+    {
+      "concept": "a wet nose",
+      "low_score": 0,
+      "high_score": 1,
+      "delta_high_minus_low": 1
+    },
+    {
+      "concept": "a wheel",
+      "low_score": 0,
+      "high_score": 2,
+      "delta_high_minus_low": 2
+    },
+    {
+      "concept": "a wide mouth",
+      "low_score": 0,
+      "high_score": 1,
+      "delta_high_minus_low": 1
+    },
+    {
+      "concept": "a windshield",
+      "low_score": 0,
+      "high_score": 0,
+      "delta_high_minus_low": 0
+    },
+    {
+      "concept": "a worm",
+      "low_score": 0,
+      "high_score": 0,
+      "delta_high_minus_low": 0
+    },
+    {
+      "concept": "amphibian",
+      "low_score": 0,
+      "high_score": 0,
+      "delta_high_minus_low": 0
+    },
+    {
+      "concept": "an engine",
+      "low_score": 0,
+      "high_score": 2,
+      "delta_high_minus_low": 2
+    },
+    {
+      "concept": "animal",
+      "low_score": 0,
+      "high_score": 4,
+      "delta_high_minus_low": 4
+    },
+    {
+      "concept": "antlers",
+      "low_score": 0,
+      "high_score": 0,
+      "delta_high_minus_low": 0
+    },
+    {
+      "concept": "cargo",
+      "low_score": 0,
+      "high_score": 0,
+      "delta_high_minus_low": 0
+    },
+    {
+      "concept": "engines",
+      "low_score": 0,
+      "high_score": 0,
+      "delta_high_minus_low": 0
+    },
+    {
+      "concept": "engines on the wings",
+      "low_score": 0,
+      "high_score": 1,
+      "delta_high_minus_low": 1
+    },
+    {
+      "concept": "feathers",
+      "low_score": 0,
+      "high_score": 0,
+      "delta_high_minus_low": 0
+    },
+    {
+      "concept": "food",
+      "low_score": 0,
+      "high_score": 0,
+      "delta_high_minus_low": 0
+    },
+    {
+      "concept": "four legs",
+      "low_score": 0,
+      "high_score": 0,
+      "delta_high_minus_low": 0
+    },
+    {
+      "concept": "four round, black tires",
+      "low_score": 3,
+      "high_score": 1,
+      "delta_high_minus_low": -2
+    },
+    {
+      "concept": "four wheels",
+      "low_score": 0,
+      "high_score": 0,
+      "delta_high_minus_low": 0
+    },
+    {
+      "concept": "fur",
+      "low_score": 0,
+      "high_score": 0,
+      "delta_high_minus_low": 0
+    },
+    {
+      "concept": "grass",
+      "low_score": 0,
+      "high_score": 0,
+      "delta_high_minus_low": 0
+    },
+    {
+      "concept": "hooves",
+      "low_score": 0,
+      "high_score": 0,
+      "delta_high_minus_low": 0
+    },
+    {
+      "concept": "insects",
+      "low_score": 0,
+      "high_score": 0,
+      "delta_high_minus_low": 0
+    },
+    {
+      "concept": "landing gear",
+      "low_score": 0,
+      "high_score": 0,
+      "delta_high_minus_low": 0
+    },
+    {
+      "concept": "large sails or engines",
+      "low_score": 0,
+      "high_score": 1,
+      "delta_high_minus_low": 1
+    },
+    {
+      "concept": "large, brown eyes",
+      "low_score": 3,
+      "high_score": 1,
+      "delta_high_minus_low": -2
+    },
+    {
+      "concept": "large, bulging eyes",
+      "low_score": 0,
+      "high_score": 1,
+      "delta_high_minus_low": 1
+    },
+    {
+      "concept": "lily pads",
+      "low_score": 0,
+      "high_score": 0,
+      "delta_high_minus_low": 0
+    },
+    {
+      "concept": "living thing",
+      "low_score": 0,
+      "high_score": 0,
+      "delta_high_minus_low": 0
+    },
+    {
+      "concept": "long ears",
+      "low_score": 0,
+      "high_score": 0,
+      "delta_high_minus_low": 0
+    },
+    {
+      "concept": "long hind legs for jumping",
+      "low_score": 0,
+      "high_score": 1,
+      "delta_high_minus_low": 1
+    },
+    {
+      "concept": "long, thin legs",
+      "low_score": 0,
+      "high_score": 1,
+      "delta_high_minus_low": 1
+    },
+    {
+      "concept": "machine",
+      "low_score": 0,
+      "high_score": 2,
+      "delta_high_minus_low": 2
+    },
+    {
+      "concept": "mammal",
+      "low_score": 0,
+      "high_score": 0,
+      "delta_high_minus_low": 0
+    },
+    {
+      "concept": "multiple decks",
+      "low_score": 0,
+      "high_score": 0,
+      "delta_high_minus_low": 0
+    },
+    {
+      "concept": "multiple sails",
+      "low_score": 0,
+      "high_score": 0,
+      "delta_high_minus_low": 0
+    },
+    {
+      "concept": "nature",
+      "low_score": 0,
+      "high_score": 0,
+      "delta_high_minus_low": 0
+    },
+    {
+      "concept": "object",
+      "low_score": 0,
+      "high_score": 4,
+      "delta_high_minus_low": 4
+    },
+    {
+      "concept": "organism",
+      "low_score": 0,
+      "high_score": 0,
+      "delta_high_minus_low": 0
+    },
+    {
+      "concept": "passengers",
+      "low_score": 0,
+      "high_score": 0,
+      "delta_high_minus_low": 0
+    },
+    {
+      "concept": "pointed ears",
+      "low_score": 0,
+      "high_score": 0,
+      "delta_high_minus_low": 0
+    },
+    {
+      "concept": "quadruped",
+      "low_score": 0,
+      "high_score": 0,
+      "delta_high_minus_low": 0
+    },
+    {
+      "concept": "side windows",
+      "low_score": 0,
+      "high_score": 0,
+      "delta_high_minus_low": 0
+    },
+    {
+      "concept": "taillights",
+      "low_score": 0,
+      "high_score": 0,
+      "delta_high_minus_low": 0
+    },
+    {
+      "concept": "the ability to fly",
+      "low_score": 0,
+      "high_score": 1,
+      "delta_high_minus_low": 1
+    },
+    {
+      "concept": "the ocean",
+      "low_score": 0,
+      "high_score": 0,
+      "delta_high_minus_low": 0
+    },
+    {
+      "concept": "transportation",
+      "low_score": 0,
+      "high_score": 0,
+      "delta_high_minus_low": 0
+    },
+    {
+      "concept": "trees",
+      "low_score": 0,
+      "high_score": 0,
+      "delta_high_minus_low": 0
+    },
+    {
+      "concept": "two headlights",
+      "low_score": 0,
+      "high_score": 0,
+      "delta_high_minus_low": 0
+    },
+    {
+      "concept": "vertebrate",
+      "low_score": 0,
+      "high_score": 0,
+      "delta_high_minus_low": 0
+    },
+    {
+      "concept": "vessel",
+      "low_score": 0,
+      "high_score": 0,
+      "delta_high_minus_low": 0
+    },
+    {
+      "concept": "watercraft",
+      "low_score": 0,
+      "high_score": 0,
+      "delta_high_minus_low": 0
+    },
+    {
+      "concept": "webbed feet",
+      "low_score": 0,
+      "high_score": 0,
+      "delta_high_minus_low": 0
+    },
+    {
+      "concept": "whiskers",
+      "low_score": 0,
+      "high_score": 0,
+      "delta_high_minus_low": 0
+    },
+    {
+      "concept": "white spots on the coat",
+      "low_score": 3,
+      "high_score": 1,
+      "delta_high_minus_low": -2
+    },
+    {
+      "concept": "wings",
+      "low_score": 0,
+      "high_score": 0,
+      "delta_high_minus_low": 0
+    },
+    {
+      "concept": "woods",
+      "low_score": 0,
+      "high_score": 0,
+      "delta_high_minus_low": 0
+    }
+  ]
+}

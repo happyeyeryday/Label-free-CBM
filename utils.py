@@ -9,6 +9,11 @@ from torch.utils.data import DataLoader
 
 PM_SUFFIX = {"max":"_max", "avg":""}
 
+
+def _maybe_empty_cuda_cache():
+    if torch.cuda.is_available():
+        torch.cuda.empty_cache()
+
 def save_target_activations(target_model, dataset, save_name, target_layers = ["layer4"], batch_size = 1000,
                             device = "cuda", pool_mode='avg'):
     """
@@ -38,7 +43,7 @@ def save_target_activations(target_model, dataset, save_name, target_layers = ["
         hooks[target_layer].remove()
     #free memory
     del all_features
-    torch.cuda.empty_cache()
+    _maybe_empty_cuda_cache()
     return
 
 def save_clip_image_features(model, dataset, save_name, batch_size=1000 , device = "cuda"):
@@ -58,7 +63,7 @@ def save_clip_image_features(model, dataset, save_name, batch_size=1000 , device
     torch.save(torch.cat(all_features), save_name)
     #free memory
     del all_features
-    torch.cuda.empty_cache()
+    _maybe_empty_cuda_cache()
     return
 
 def save_clip_text_features(model, text, save_name, batch_size=1000):
@@ -73,7 +78,7 @@ def save_clip_text_features(model, text, save_name, batch_size=1000):
     text_features = torch.cat(text_features, dim=0)
     torch.save(text_features, save_name)
     del text_features
-    torch.cuda.empty_cache()
+    _maybe_empty_cuda_cache()
     return
 
 def save_activations(clip_name, target_name, target_layers, d_probe, 
@@ -125,19 +130,19 @@ def get_similarity_from_activations(target_save_name, clip_save_name, text_save_
         text_features /= text_features.norm(dim=-1, keepdim=True).float()
         clip_feats = (image_features @ text_features.T)
     del image_features, text_features
-    torch.cuda.empty_cache()
+    _maybe_empty_cuda_cache()
     
     target_feats = torch.load(target_save_name)
     similarity = similarity_fn(clip_feats, target_feats)
     
     del clip_feats
-    torch.cuda.empty_cache()
+    _maybe_empty_cuda_cache()
     
     if return_target_feats:
         return similarity, target_feats
     else:
         del target_feats
-        torch.cuda.empty_cache()
+        _maybe_empty_cuda_cache()
         return similarity
     
 def get_activation(outputs, mode):
