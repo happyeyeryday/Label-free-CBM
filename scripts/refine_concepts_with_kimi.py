@@ -59,20 +59,41 @@ def call_llm_json(client, model: str, prompt: str, temperature: float) -> Dict:
     return extract_json_object(content)
 
 
-def build_sort_prompt(concepts: List[str]) -> str:
+def build_sort_prompt(
+    concepts: List[str],
+    min_l1: int,
+    min_l2: int,
+    min_l3: int,
+    min_l4: int,
+) -> str:
+    classes = [
+        "airplane", "automobile", "bird", "cat", "deer", "dog", "frog", "horse", "ship", "truck"
+    ]
     payload = {
         "task": "Sort CIFAR-10 concepts into 4 hierarchical levels",
+        "background": "Follow CNN receptive-field depth: L1 local primitive, L2 small local parts, L3 structural components, L4 global semantics.",
         "levels": {
-            "l1": "atomic/shallow primitives: pure colors, micro-textures, basic local patterns",
-            "l2": "local parts: small object components with simple shapes",
-            "l3": "complex components: larger structural parts requiring wider receptive fields",
-            "l4": "global semantic: abstract categories, habitat/behavior, full-object semantics",
+            "l1": "atomic/shallow primitives: pure colors, micro-textures, local appearance words, tiny patterns",
+            "l2": "local parts: small visible components with simple local geometry",
+            "l3": "complex components: larger structural parts (assemblies, articulated components)",
+            "l4": "global semantic: class/category-level meaning, habitat/behavior, role/function, whole-object semantics",
         },
+        "cifar10_classes": classes,
+        "strong_rules": [
+            "If a concept is abstract, role-like, behavior/habitat related, or whole-object semantic -> l4",
+            "If a concept is a structural part that usually needs large context (e.g., wings, engine block, steering wheel) -> l3",
+            "If a concept is a small local component (e.g., beak, whisker, hoof, eye) -> l2",
+            "If a concept is color/texture/material/pattern/appearance adjective -> l1",
+            "Prefer semantic purity over balancing; then satisfy minimum counts",
+        ],
+        "min_counts": {"l1": min_l1, "l2": min_l2, "l3": min_l3, "l4": min_l4},
         "constraints": [
             "Output strict JSON only",
             "Use keys: l1, l2, l3, l4",
             "Each value must be a list of lowercase strings",
             "Every input concept must appear exactly once across l1-l4",
+            "Do not create, remove, or rename concepts",
+            "No duplicated concepts across levels",
             "No extra commentary",
         ],
         "concepts": concepts,
@@ -101,9 +122,11 @@ def build_rebalance_prompt(
     min_l2: int,
     min_l3: int,
     min_l4: int,
+    strict_balance: bool,
 ) -> str:
     payload = {
         "task": "Rebalance hierarchical concept groups while preserving partition",
+        "goal": "Meet minimum counts while keeping semantic purity of each level.",
         "constraints": [
             "Output strict JSON only",
             "Use keys: l1,l2,l3,l4",
@@ -113,7 +136,9 @@ def build_rebalance_prompt(
             f"l2 count >= {min_l2}",
             f"l3 count >= {min_l3}",
             f"l4 count >= {min_l4}",
+            "Prefer moving boundary/ambiguous concepts before moving highly prototypical ones",
         ],
+        "rebalance_mode": "strict_balance" if strict_balance else "semantic_purity_first",
         "current_groups": grouped,
     }
     return json.dumps(payload, ensure_ascii=False)
@@ -194,6 +219,38 @@ def counts_ok(grouped: Dict[str, List[str]], min_l1: int, min_l2: int, min_l3: i
     )
 
 
+def rebalance_locally(grouped: Dict[str, List[str]], min_l1: int, min_l2: int, min_l3: int, min_l4: int) -> Dict[str, List[str]]:
+    """Deterministic fallback rebalancer that only moves existing concepts across levels."""
+    out = {k: list(v) for k, v in grouped.items()}
+    mins = {"l1": min_l1, "l2": min_l2, "l3": min_l3, "l4": min_l4}
+    level_order = ["l1", "l2", "l3", "l4"]
+
+    def donate(receiver: str) -> bool:
+        for donor in reversed(level_order):
+            if donor == receiver:
+                continue
+            if len(out[donor]) > mins[donor]:
+                moved = out[donor].pop()
+                out[receiver].append(moved)
+                return True
+        return False
+
+    # Try to satisfy each level minimum by moving from donor levels with surplus.
+    max_steps = sum(len(v) for v in out.values()) * 4
+    steps = 0
+    while not counts_ok(out, min_l1, min_l2, min_l3, min_l4) and steps < max_steps:
+        steps += 1
+        progressed = False
+        for level in level_order:
+            while len(out[level]) < mins[level]:
+                if not donate(level):
+                    break
+                progressed = True
+        if not progressed:
+            break
+    return out
+
+
 def write_concepts(path: str, concepts: List[str]) -> None:
     os.makedirs(os.path.dirname(path), exist_ok=True)
     with open(path, "w") as f:
@@ -223,7 +280,12 @@ def main(args):
     print(f"Loaded {len(concepts)} concepts from {args.input}")
 
     print("[1/4] Initial 4-level sorting...")
-    sort_result = call_llm_json(client, args.model, build_sort_prompt(concepts), temperature=args.temperature)
+    sort_result = call_llm_json(
+        client,
+        args.model,
+        build_sort_prompt(concepts, args.min_l1, args.min_l2, args.min_l3, args.min_l4),
+        temperature=args.temperature,
+    )
     time.sleep(1.0)
     grouped = grouped_from_result(sort_result)
 
@@ -261,7 +323,14 @@ def main(args):
         rebalance = call_llm_json(
             client,
             args.model,
-            build_rebalance_prompt(grouped, args.min_l1, args.min_l2, args.min_l3, args.min_l4),
+            build_rebalance_prompt(
+                grouped,
+                args.min_l1,
+                args.min_l2,
+                args.min_l3,
+                args.min_l4,
+                args.strict_balance,
+            ),
             temperature=args.temperature,
         )
         time.sleep(1.0)
@@ -273,9 +342,15 @@ def main(args):
             )
         strict_validate_partition(concepts, grouped)
 
+        if not counts_ok(grouped, args.min_l1, args.min_l2, args.min_l3, args.min_l4):
+            print("LLM rebalance did not satisfy mins; applying local fallback rebalance...")
+            grouped = rebalance_locally(grouped, args.min_l1, args.min_l2, args.min_l3, args.min_l4)
+            strict_validate_partition(concepts, grouped)
+
     if not counts_ok(grouped, args.min_l1, args.min_l2, args.min_l3, args.min_l4):
+        counts = {k: len(v) for k, v in grouped.items()}
         raise ValueError(
-            f"Could not satisfy min counts after rebalance. counts={{k: len(v) for k, v in grouped.items()}}"
+            f"Could not satisfy min counts after rebalance. counts={counts}"
         )
 
     classes = [
@@ -355,4 +430,5 @@ if __name__ == "__main__":
     parser.add_argument("--min_l2", type=int, default=25)
     parser.add_argument("--min_l3", type=int, default=20)
     parser.add_argument("--min_l4", type=int, default=20)
+    parser.add_argument("--strict_balance", action="store_true")
     main(parser.parse_args())
