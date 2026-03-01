@@ -143,16 +143,16 @@ def main(args):
         print("Missing dependency: openai. Install with `pip install openai`.", file=sys.stderr)
         sys.exit(1)
 
-    api_key = os.getenv("MOONSHOT_API_KEY")
+    api_key = os.getenv(args.api_key_env)
     if not api_key:
-        print("MOONSHOT_API_KEY is not set.", file=sys.stderr)
+        print(f"{args.api_key_env} is not set.", file=sys.stderr)
         sys.exit(1)
 
     concepts = read_concepts(args.input)
     if not concepts:
         raise ValueError("Input concept file is empty")
 
-    client = OpenAI(api_key=api_key, base_url="https://api.moonshot.cn/v1")
+    client = OpenAI(api_key=api_key, base_url=args.base_url)
 
     print(f"Loaded {len(concepts)} concepts from {args.input}")
     print("[1/2] Requesting 4-level hierarchical sorting from Kimi...")
@@ -206,7 +206,7 @@ def main(args):
     meta = {
         "input": args.input,
         "model": args.model,
-        "base_url": "https://api.moonshot.cn/v1",
+        "base_url": args.base_url,
         "counts": {k: len(v) for k, v in grouped.items()},
         "min_l1": args.min_l1,
         "min_l2": args.min_l2,
@@ -227,7 +227,9 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Refine CIFAR-10 concepts into 4 hierarchical levels with Kimi")
     parser.add_argument("--input", type=str, default="data/concept_sets/cifar10_filtered.txt")
     parser.add_argument("--output_dir", type=str, default="data/concept_sets")
-    parser.add_argument("--model", type=str, default="moonshot-v1-8k")
+    parser.add_argument("--model", type=str, default="deepseek-chat")
+    parser.add_argument("--base_url", type=str, default="https://api.deepseek.com/v1")
+    parser.add_argument("--api_key_env", type=str, default="OPENAI_API_KEY")
     parser.add_argument("--temperature", type=float, default=0.0)
     parser.add_argument("--min_l1", type=int, default=35, help="If L1 count below this, trigger augmentation")
     parser.add_argument("--min_l2", type=int, default=30, help="If L2 count below this, trigger augmentation")
