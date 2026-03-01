@@ -36,6 +36,9 @@ class ProbeHead(torch.nn.Module):
                 torch.nn.Linear(in_dim, 512),
                 torch.nn.BatchNorm1d(512),
                 torch.nn.ReLU(inplace=True),
+                torch.nn.Linear(512, 512),
+                torch.nn.BatchNorm1d(512),
+                torch.nn.ReLU(inplace=True),
                 torch.nn.Linear(512, out_dim),
             )
         else:
@@ -80,9 +83,10 @@ def evaluate_probe(probe, test_x, test_t, device):
     return compute_metrics(test_pred, test_t)
 
 
-def train_probe(train_x, train_t, test_x, test_t, layer_key, lr, epochs, batch_size, device):
+def train_probe(train_x, train_t, test_x, test_t, layer_key, lr_shallow, lr_deep, epochs, batch_size, device):
     probe = ProbeHead(train_x.shape[1], train_t.shape[1], layer_key).to(device)
-    optimizer = torch.optim.Adam(probe.parameters(), lr=lr)
+    lr = lr_shallow if layer_key in {"l1", "l2"} else lr_deep
+    optimizer = torch.optim.Adam(probe.parameters(), lr=lr, weight_decay=1e-4)
     scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=max(1, epochs))
 
     untrained_metrics = evaluate_probe(probe, test_x, test_t, device)
@@ -270,7 +274,8 @@ def main(args):
                 te_x,
                 te_t,
                 layer_key=feat_key,
-                lr=args.lr,
+                lr_shallow=args.lr_shallow,
+                lr_deep=args.lr_deep,
                 epochs=epochs,
                 batch_size=args.probe_batch_size,
                 device=device,
@@ -349,14 +354,15 @@ if __name__ == "__main__":
     parser.add_argument("--clip_name", type=str, default="ViT-B/16")
     parser.add_argument("--device", type=str, default=None)
     parser.add_argument("--full", action="store_true", help="Run full CIFAR-10 train/test split")
-    parser.add_argument("--epochs", type=int, default=100, help="Probe training epochs")
-    parser.add_argument("--lr", type=float, default=1e-3)
+    parser.add_argument("--epochs", type=int, default=50, help="Probe training epochs")
+    parser.add_argument("--lr_shallow", type=float, default=1e-2, help="Learning rate for l1/l2 probes")
+    parser.add_argument("--lr_deep", type=float, default=1e-3, help="Learning rate for l3/l4 probes")
     parser.add_argument("--probe_batch_size", type=int, default=256)
     parser.add_argument("--clip_batch_size", type=int, default=256)
     parser.add_argument("--feature_batch_size", type=int, default=256)
     parser.add_argument("--num_workers", type=int, default=4)
-    parser.add_argument("--train_subset", type=int, default=5000)
-    parser.add_argument("--test_subset", type=int, default=2000)
+    parser.add_argument("--train_subset", type=int, default=50000)
+    parser.add_argument("--test_subset", type=int, default=10000)
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--targets_low", type=str, default=None, help="Legacy two-target mode: low concepts")
     parser.add_argument("--targets_high", type=str, default=None, help="Legacy two-target mode: high concepts")
