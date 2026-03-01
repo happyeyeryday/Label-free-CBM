@@ -60,7 +60,15 @@ def encode_clip_image_features(dataset, clip_model, device: str, batch_size: int
     return torch.cat(outputs, dim=0)
 
 
-def build_clip_targets(clip_dataset, concept_file: str, clip_model, device: str, batch_size: int = 256, num_workers: int = 4):
+def build_clip_targets(
+    clip_dataset,
+    concept_file: str,
+    clip_model,
+    device: str,
+    batch_size: int = 256,
+    num_workers: int = 4,
+    return_parts: bool = False,
+):
     concepts = load_concepts(concept_file)
     text_features = encode_clip_text_features(concepts, clip_model, device)
     image_features = encode_clip_image_features(
@@ -71,11 +79,13 @@ def build_clip_targets(clip_dataset, concept_file: str, clip_model, device: str,
         num_workers=num_workers,
     )
     targets = image_features @ text_features.cpu().T
+    if return_parts:
+        return targets, concepts, image_features, text_features.cpu()
     return targets, concepts
 
 
 def extract_hierarchical_features(dataset, model, layer: str, device: str, batch_size: int = 256, num_workers: int = 4):
-    if layer not in {"l1", "l4"}:
+    if layer not in {"l1", "l2", "l3", "l4"}:
         raise ValueError(f"Unsupported layer: {layer}")
 
     loader = DataLoader(dataset, batch_size=batch_size, shuffle=False, num_workers=num_workers, pin_memory=True)
