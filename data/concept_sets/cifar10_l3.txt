@@ -4,8 +4,14 @@ a birdfeeder
 a birdhouse
 a bridle
 a cab for the driver
+a large body
+a large size
+a large, metal body
+a large, rectangular body
 a dashboard
 a deck
+a flat back end
+a flat front and back
 a food bowl
 a litter box
 a long neck
@@ -13,12 +19,14 @@ a mane and tail
 a mast
 a nest
 a net
+a pointed front end
 a rudder
 a saddle
 a scratching post
 a seat
 a steering wheel
 a trailer
+a tough, durable frame
 a wheel
 a windshield
 an engine
@@ -33,4 +41,7 @@ long hind legs for jumping
 long, thin legs
 multiple decks
 multiple sails
+a short, stocky build
+a slender body
+a small, lithe body
 wings

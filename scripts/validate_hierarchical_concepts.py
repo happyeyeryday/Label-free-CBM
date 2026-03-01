@@ -1,9 +1,9 @@
 import argparse
 import csv
-import itertools
 import os
 import re
 import statistics
+import sys
 from collections import Counter
 
 
@@ -31,12 +31,30 @@ def layer_index(layer_name):
     return int(m.group(1))
 
 
-def check_concept_files(concept_dir):
+def parse_levels_csv(value):
+    valid = {"l1", "l2", "l3", "l4"}
+    levels = [x.strip().lower() for x in value.split(",") if x.strip()]
+    if not levels:
+        raise ValueError("--levels must include at least one layer")
+    invalid = [x for x in levels if x not in valid]
+    if invalid:
+        raise ValueError(f"--levels contains invalid layers: {invalid}")
+    deduped = []
+    seen = set()
+    for level in levels:
+        if level not in seen:
+            seen.add(level)
+            deduped.append(level)
+    return deduped
+
+
+def check_concept_files(concept_dir, active_levels):
     errors = []
     warnings = []
     per_layer = {}
 
-    for key, fname in LAYER_FILES.items():
+    for key in active_levels:
+        fname = LAYER_FILES[key]
         path = os.path.join(concept_dir, fname)
         if not os.path.exists(path):
             errors.append(f"Missing file: {path}")
@@ -68,7 +86,7 @@ def check_concept_files(concept_dir):
 
         per_layer[key] = norm
 
-    if len(per_layer) == 4:
+    if len(per_layer) == len(active_levels):
         all_seen = {}
         for layer, items in per_layer.items():
             for c in items:
@@ -185,10 +203,11 @@ def analyze_layering_effect(rows):
 
 
 def main(args):
-    errors, warnings, per_layer = check_concept_files(args.concept_dir)
+    active_levels = parse_levels_csv(args.levels)
+    errors, warnings, per_layer = check_concept_files(args.concept_dir, active_levels)
 
     print("=== Concept File Validation ===")
-    for layer in ["l1", "l2", "l3", "l4"]:
+    for layer in active_levels:
         if layer in per_layer:
             print(f"{layer}: {len(per_layer[layer])} concepts")
 
@@ -224,5 +243,11 @@ def main(args):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Validate hierarchical concept files and optionally audit results")
     parser.add_argument("--concept_dir", type=str, default="data/concept_sets")
+    parser.add_argument(
+        "--levels",
+        type=str,
+        default="l2,l3,l4",
+        help="Comma-separated concept levels to validate (default: l2,l3,l4)",
+    )
     parser.add_argument("--results_csv", type=str, default=None)
     main(parser.parse_args())

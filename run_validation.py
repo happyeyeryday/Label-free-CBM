@@ -135,18 +135,42 @@ def check_target_alignment(name, image_features, text_features, targets):
     print(f"[Audit] Target matrix check ({name}): max |recomputed - stored| = {max_abs:.8f}")
 
 
-def resolve_target_specs(args):
+def parse_level_csv(value, arg_name):
+    valid = {"l1", "l2", "l3", "l4"}
+    levels = [x.strip().lower() for x in value.split(",") if x.strip()]
+    if not levels:
+        raise ValueError(f"{arg_name} must include at least one level")
+    invalid = [x for x in levels if x not in valid]
+    if invalid:
+        raise ValueError(f"{arg_name} contains invalid levels: {invalid}")
+    deduped = []
+    seen = set()
+    for level in levels:
+        if level not in seen:
+            seen.add(level)
+            deduped.append(level)
+    return deduped
+
+
+def resolve_target_specs(args, target_levels):
     if args.targets_low is not None or args.targets_high is not None:
         if args.targets_low is None or args.targets_high is None:
             raise ValueError("Both --targets_low and --targets_high must be provided in legacy mode")
         return [("low", args.targets_low), ("high", args.targets_high)]
 
-    return [
-        ("l1", args.targets_l1),
-        ("l2", args.targets_l2),
-        ("l3", args.targets_l3),
-        ("l4", args.targets_l4),
-    ]
+    level_to_path = {
+        "l1": args.targets_l1,
+        "l2": args.targets_l2,
+        "l3": args.targets_l3,
+        "l4": args.targets_l4,
+    }
+    specs = []
+    for level in target_levels:
+        path = level_to_path[level]
+        if not path:
+            raise ValueError(f"No target file configured for {level}")
+        specs.append((level, path))
+    return specs
 
 
 def load_target_matrices(target_specs, train_clip_sub, test_clip_sub, clip_model, device, args):
@@ -185,6 +209,8 @@ def load_target_matrices(target_specs, train_clip_sub, test_clip_sub, clip_model
 
 def main(args):
     device = auto_device(args.device)
+    feature_levels = parse_level_csv(args.feature_layers, "--feature_layers")
+    target_levels = parse_level_csv(args.target_levels, "--target_levels")
     os.makedirs(args.save_dir, exist_ok=True)
     os.makedirs(args.data_root, exist_ok=True)
     os.makedirs(args.torch_home, exist_ok=True)
@@ -229,7 +255,8 @@ def main(args):
 
     train_feats = {}
     test_feats = {}
-    for layer in ("l1", "l2", "l3", "l4"):
+    print(f"[Audit] Feature layers: {feature_levels}")
+    for layer in feature_levels:
         train_feats[layer], _ = extract_hierarchical_features(
             train_backbone_sub,
             backbone,
@@ -247,7 +274,7 @@ def main(args):
             num_workers=args.num_workers,
         )
 
-    target_specs = resolve_target_specs(args)
+    target_specs = resolve_target_specs(args, target_levels)
     print("[Audit] Target sets:")
     for label, path in target_specs:
         print(f"  {label}: {path}")
@@ -257,7 +284,7 @@ def main(args):
     rows = []
     timestamp = datetime.datetime.now().isoformat(timespec="seconds")
 
-    for feat_key in ("l1", "l2", "l3", "l4"):
+    for feat_key in feature_levels:
         feature_layer = f"layer{feat_key[-1]}"
         tr_x = train_feats[feat_key]
         te_x = test_feats[feat_key]
@@ -353,6 +380,18 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Hierarchical concept aptitude validation")
     parser.add_argument("--clip_name", type=str, default="ViT-B/16")
     parser.add_argument("--device", type=str, default=None)
+    parser.add_argument(
+        "--feature_layers",
+        type=str,
+        default="l2,l3,l4",
+        help="Comma-separated feature layers to evaluate (default: l2,l3,l4)",
+    )
+    parser.add_argument(
+        "--target_levels",
+        type=str,
+        default="l2,l3,l4",
+        help="Comma-separated target levels to evaluate (default: l2,l3,l4)",
+    )
     parser.add_argument("--full", action="store_true", help="Run full CIFAR-10 train/test split")
     parser.add_argument("--epochs", type=int, default=50, help="Probe training epochs")
     parser.add_argument("--lr_shallow", type=float, default=1e-2, help="Learning rate for l1/l2 probes")
