@@ -1,0 +1,63 @@
+a hunter
+a barn
+a bed
+a beetle
+a boat
+a branch
+a cage
+a captain
+a cat bed
+a cat food dish
+a cat toy
+a copilot
+a crew
+a deer stand
+a dock
+a dog bowl
+a driver
+a field
+a flight attendant
+a fly
+a forest
+a four-legged mammal
+a leaf
+a lily pad
+a mosquito
+a passenger
+a pasture
+a person
+a pilot
+a pond
+a port
+a rider
+a rifle
+a road
+a runway
+a spider
+a suitcase
+a toy
+a tree
+a worm
+amphibian
+animal
+cargo
+food
+grass
+insects
+lily pads
+living thing
+machine
+mammal
+nature
+object
+organism
+passengers
+quadruped
+the ability to fly
+the ocean
+transportation
+trees
+vertebrate
+vessel
+watercraft
+woods
